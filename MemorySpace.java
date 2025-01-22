@@ -58,7 +58,29 @@ public class MemorySpace {
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
 	public int malloc(int length) {		
-		//// Replace the following statement with your code
+		if (freeList.getNode(0)==null || length<=0){
+			return -1;
+		}
+		int indexOf = 0;
+		ListIterator iterator = freeList.iterator();
+		while (iterator.hasNext()){
+			MemoryBlock current = iterator.next();
+			if (current.length == length){
+				allocatedList.addLast(current);
+				freeList.remove(current);
+				return current.baseAddress;
+			} else if (current.length>length){
+				MemoryBlock toAlloc = new MemoryBlock(current.baseAddress, length);
+				allocatedList.addLast(toAlloc);
+				current.baseAddress += length;
+				current.length -= length;
+				freeList.add(indexOf, current);
+				freeList.remove(indexOf + 1);
+				return toAlloc.baseAddress;
+			}
+			indexOf++;
+			break;
+		}
 		return -1;
 	}
 
@@ -71,7 +93,19 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//// Write your code here
+		if (allocatedList == null){
+
+		}else {
+			ListIterator iterator = allocatedList.iterator();
+			while (iterator.hasNext()) {
+				MemoryBlock current = iterator.next();
+				if (current.baseAddress == address){
+					freeList.addLast(current);
+					allocatedList.remove(current);
+				}
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -90,5 +124,19 @@ public class MemorySpace {
 	public void defrag() {
 		/// TODO: Implement defrag test
 		//// Write your code here
+		if (freeList == null){
+
+		} 	else {
+			ListIterator iterator = freeList.iterator();
+			if (iterator.hasNext()){
+			    int indx1A = freeList.getBlock(0).baseAddress;
+				int length0 = freeList.getBlock(0).length;
+				int length1 = freeList.getBlock(1).length;
+				MemoryBlock current = new MemoryBlock (indx1A , length0 + length1);
+				freeList.remove(0);
+				freeList.remove(0);
+				freeList.add(0, current);
+			}
+		} 
 	}
 }
