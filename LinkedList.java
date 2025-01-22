@@ -186,26 +186,21 @@ public class LinkedList {
 		if (first == null || node == null){
 			System.out.println("ERROR NullPointerException!");
 			return;
-		} else if (size == 1){
+		} else if (size == 1 || first == null){
 			size = 0;
 			first = null;
 			last = null;
 			return;
-		} else if (first == node) {
-				first = first.next;
-				size--;
 		} else {
 		Node prev = first;
 		Node current = first.next;
 		while (current != null) {
-			if (current == last){
-				last = prev;
-				size--;
-				break;
-			}
 			if (current == node){
-				size--;
 				prev.next=current.next;
+				size--;
+				if (current == last){
+					last = prev;
+				}
 				break;
 			} else {
 				prev = current;
@@ -246,7 +241,7 @@ public class LinkedList {
 	public void remove(MemoryBlock block) {
 		if (indexOf(block) == -1){
 			throw new IllegalArgumentException(
-					"block must be in the list");
+					"index must be between 0 and size");
 		}
 		remove(indexOf(block));
 	}
