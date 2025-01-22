@@ -183,7 +183,8 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-		if (first == null){
+		if (first == null || node == null){
+			System.out.println("ERROR NullPointerException!");
 			return;
 		} else if (size == 1){
 			size = 0;
@@ -197,6 +198,11 @@ public class LinkedList {
 		Node prev = first;
 		Node current = first.next;
 		while (current != null) {
+			if (current == last){
+				last = prev;
+				size--;
+				break;
+			}
 			if (current == node){
 				size--;
 				prev.next=current.next;
