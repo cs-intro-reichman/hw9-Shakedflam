@@ -206,10 +206,13 @@ public class LinkedList {
 		Node prev = first;
 		Node current = first.next;
 		while (current != null) {
-			if (current.next.equals(node) && node.equals(last)){
-				current.next = null; 
+			if (current.equals(node) && node.equals(last)){
+				current = null; 
 				size --;
-				last = current;
+				last = prev;
+				if (size == 1){
+					last = first;
+				}
 				break;
 			}
 			if (current.equals(node)){
@@ -219,6 +222,9 @@ public class LinkedList {
 			} else {
 				prev = current;
 				current = current.next;
+				if (size == 1){
+					last = first;
+				}
 			}
 		}
 		}
