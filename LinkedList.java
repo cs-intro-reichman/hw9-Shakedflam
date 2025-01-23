@@ -199,11 +199,15 @@ public class LinkedList {
 				last = null;
 			}
 			return;
-		} else{
+		} else if (first == node){
+			first = first.next;
+			return;
+		} else {
 		Node prev = first;
 		Node current = first.next;
 		while (current != null) {
 			if (current == last){
+				prev.next = null;
 				last = prev;
 				size --;
 				break;
