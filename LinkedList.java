@@ -192,27 +192,24 @@ public class LinkedList {
 			last = null;
 			return;
 		}  
-		if (first == null) {
+		if (node.equals(first)) {
 			first = first.next;
 			size --;
-			if (size == 0){
-				last = null;
+			if(size == 1) {
+				last = first;
 			}
-			return;
-		} else if (first == node){
-			first = first.next;
 			return;
 		} else {
 		Node prev = first;
 		Node current = first.next;
 		while (current != null) {
-			if (current == last){
-				prev.next = null;
-				last = prev;
+			if (current.next.equals(node) && node.equals(last)){
+				current.next = null; 
 				size --;
+				last = current;
 				break;
 			}
-			if (current == node){
+			if (current.equals(node)){
 				prev.next=current.next;
 				size--;
 				break;
