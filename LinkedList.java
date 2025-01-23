@@ -189,7 +189,7 @@ public class LinkedList {
 		}
 			if (first.equals(null)){
 			return;
-		} else if (size == 1 || first.equals(node)){
+		} else if (size == 1 && first.equals(node)){
 			size = 0;
 			first = null;
 			last = null;
