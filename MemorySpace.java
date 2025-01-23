@@ -58,28 +58,26 @@ public class MemorySpace {
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
 	public int malloc(int length) {		
-		if (freeList.getNode(0)==null || length<=0){
+		if (freeList.getNode(0) == null || length<=0){
 			return -1;
 		}
-		int indexOf = 0;
-		ListIterator iterator = freeList.iterator();
-		while (iterator.hasNext()){
-			MemoryBlock current = iterator.next();
-			if (current.length == length){
-				allocatedList.addLast(current);
-				freeList.remove(current);
-				return current.baseAddress;
-			} else if (current.length>length){
-				MemoryBlock toAlloc = new MemoryBlock(current.baseAddress, length);
-				allocatedList.addLast(toAlloc);
-				current.baseAddress += length;
-				current.length -= length;
-				freeList.add(indexOf, current);
-				freeList.remove(indexOf + 1);
-				return toAlloc.baseAddress;
+		Node current = freeList.getFirst();
+		Node match = null;
+		while (current != null){
+			if (current.block.length >= length){
+				match = current;
 			}
-			indexOf++;
-			break;
+			current = current.next;
+		}
+		if (match != null){
+			MemoryBlock toAlock = new MemoryBlock(match.block.baseAddress, length);
+			allocatedList.addLast(toAlock);
+			match.block.length -= length;
+			match.block.baseAddress += length;
+			if (match.block.length == 0){
+				freeList.remove(match);
+				return match.block.baseAddress;
+			}
 		}
 		return -1;
 	}
@@ -94,13 +92,14 @@ public class MemorySpace {
 	 */
 	public void free(int address) {
 		if (allocatedList == null){
-
-		}else {
-			ListIterator iterator = allocatedList.iterator();
-			while (iterator.hasNext()) {
-				MemoryBlock current = iterator.next();
-				if (current.baseAddress == address){
-					freeList.addLast(current);
+			throw new IllegalArgumentException(
+					"index must be between 0 and size");
+					return;
+		}
+		   	Node current = allocatedList.getFirst();
+			while (current.next != null) {	
+				if (current.block.baseAddress == address){
+					freeList.addLast(current.block);
 					allocatedList.remove(current);
 				}
 				break;
