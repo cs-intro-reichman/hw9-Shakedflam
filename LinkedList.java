@@ -183,10 +183,12 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-		if (first == null || node == null || node.equals(null)){
+		if (node.equals(null)){
 			System.out.println("ERROR NullPointerException!");
 			return;
-		} else if (size == 1 || first == null){
+			if (first.equals(null)){
+			return;
+		} else if (size == 1 || first.equals(node)){
 			size = 0;
 			first = null;
 			last = null;
