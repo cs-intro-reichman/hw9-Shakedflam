@@ -186,6 +186,7 @@ public class LinkedList {
 		if (node.equals(null)){
 			System.out.println("ERROR NullPointerException!");
 			return;
+		}
 			if (first.equals(null)){
 			return;
 		} else if (size == 1 || first.equals(node)){
