@@ -202,31 +202,27 @@ public class LinkedList {
 				last = first;
 			}
 			return;
-		} else {
-		Node prev = first;
-		Node current = first.next;
-		while (current != null) {
-			if (current.equals(node) && node.equals(last)){
-				current = null; 
+		} 
+		Node current = first;
+		while (current.next != null) {
+			if (current.next.equals(node) && node.equals(last)){
+				current.next = null; 
 				size --;
-				last = prev;
+				last = current;
 				if (size == 1){
 					last = first;
 				}
 				break;
 			}
-			if (current.equals(node)){
-				prev.next=current.next;
+			if (current.next.equals(node)){
+				current.next=current.next.next;
 				size--;
-				break;
-			} else {
-				prev = current;
-				current = current.next;
 				if (size == 1){
 					last = first;
 				}
-			}
-		}
+				break;
+			} 
+				current = current.next;
 		}
 	}
 
