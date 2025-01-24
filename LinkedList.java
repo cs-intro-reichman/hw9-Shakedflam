@@ -273,14 +273,27 @@ public class LinkedList {
 	 * A textual representation of this list, for debugging.
 	 */
 	public String toString() {
-		if (size == 0 || first == null){
-			return "";
+		String result = "";
+    	Node current = first;
+    	for(int i = 0 ; i < size ; i ++) {
+        	result += current.block.toString() + " "; 
+        	current = current.next; 
 		}
-		ListIterator iterator = iterator();
-		StringBuilder str = new StringBuilder("(");
-		while (iterator.hasNext()){
-			str.append(iterator.next().toString() + " ");
+    	return result;
+    }
+	public void sort (){
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size - i - 1; j++) {
+				Node current = getNode(j);
+				Node next = current.next;
+				if (current.block.baseAddress > next.block.baseAddress){
+					MemoryBlock temp = current.block;
+					current.block = next.block;
+					next.block = temp;
+
+				}
+			}
+			
 		}
-		return str.substring(0, str.length()-1) + ")";
 	}
 }
